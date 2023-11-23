@@ -10,7 +10,10 @@ nalgebra = { version = "0.32.3" }
 itertools = "0.12"
 
 [dev-dependencies]
+nalgebra = { version = "0.32.3", features = ["arbitrary", "debug"] }
 criterion = { version = "0.5.1", features = ["html_reports"] }
+quickcheck = "1.0.3"
+quickcheck_macros = "1"
 
 [[bench]]
 name = "benches"
