@@ -7,7 +7,7 @@ fn main() {
     let basis = Matrix3::from_columns(&[b1, b2, b3]);
     println!("basis of lattice: {}", basis);
 
-    let (cs, v) = svp::brute_force(&basis).unwrap();
+    let (cs, v) = svp::brute_force(&basis, false).unwrap();
     println!("shortest vector of lattice: λ = Ba");
     println!("λ = {}B = {}a = {}", v, basis, cs);
 
