@@ -1,5 +1,20 @@
 use itertools::Itertools;
-use nalgebra::{SMatrix, SVector};
+use nalgebra::{SMatrix, SVector, vector};
+
+/// known instance with SVP of norm sqrt(55)
+pub fn example() -> SMatrix<f32, 5, 5> {
+    // [11  0  0  0  2]
+    // [ 0 11  0  0  4]
+    // [ 0  0 11  0  3]
+    // [ 0  0  0 11  5]
+    // [ 0  0  0  0  1]
+    let b1 = vector![11.0, 0.0, 0.0, 0.0, 0.0];
+    let b2 = vector![0.0, 11.0, 0.0, 0.0, 0.0];
+    let b3 = vector![0.0, 0.0, 11.0, 0.0, 0.0];
+    let b4 = vector![0.0, 0.0, 0.0, 11.0, 0.0];
+    let b5 = vector![2.0, 4.0, 3.0, 5.0, 1.0];
+    SMatrix::from_columns(&[b1, b2, b3, b4, b5])
+}
 
 /// returns norm of shortest vector in the basis
 fn smallest_norm<const N: usize>(basis: &SMatrix<f32, N, N>) -> f32 {
@@ -23,12 +38,12 @@ fn get_bounds<const N: usize>(basis: &SMatrix<f32, N, N>, w: f32) -> Option<SVec
 }
 
 /// find the shortest vector (and its coefficients) in a lattice of given basis
-/// 
+///
 /// * `basis` - matrix whose columns are linearly independant
-/// * `half_space` - wheter to cut the search space in half
+/// * `half_space` - cut the search space in half
 pub fn brute_force<const N: usize>(
     basis: &SMatrix<f32, N, N>,
-    half_space: bool
+    half_space: bool,
 ) -> Option<(SVector<i32, N>, SVector<f32, N>)> {
     // ref: https://www.ams.org/journals/mcom/1975-29-131/S0025-5718-1975-0379386-6/S0025-5718-1975-0379386-6.pdf
     // compute basis of the dual lattice to obtain bounds on coefficients to enumerate
@@ -36,7 +51,13 @@ pub fn brute_force<const N: usize>(
         bounds
             .iter()
             .enumerate()
-            .map(|(i, ci)| if half_space && i > 0 { -ci..=*ci } else { 0..=*ci })
+            .map(|(i, ci)| {
+                if half_space && i == 0 {
+                    0..=*ci
+                } else {
+                    -ci..=*ci
+                }
+            })
             .multi_cartesian_product()
             .map(|cs| SVector::from_iterator(cs) as SVector<i32, N>)
             .map(|cs| (cs, basis * cs.map(|ci| ci as f32)))
@@ -53,13 +74,13 @@ extern crate quickcheck_macros;
 
 #[cfg(test)]
 mod tests {
-    use nalgebra::{debug::RandomSDP, Const};
+    use nalgebra::{debug::RandomSDP, Const, ComplexField};
     use quickcheck::{quickcheck, TestResult};
 
-    use crate::brute_force;
+    use crate::{brute_force, example};
 
     #[quickcheck]
-    fn svp_is_correct(basis: RandomSDP<f32, Const<3>>) -> TestResult {
+    fn svp_quickcheck(basis: RandomSDP<f32, Const<3>>) -> TestResult {
         let m = basis.unwrap();
         if !m.determinant().is_normal() {
             return TestResult::discard();
@@ -77,5 +98,15 @@ mod tests {
         }
 
         TestResult::failed()
+    }
+
+    #[test]
+    fn svp_known() {
+        let basis = example();
+        let expected = 55.0.sqrt();
+        assert_eq!(
+            brute_force(&basis, true).map(|(_, v)| v.norm()),
+            Some(expected)
+        )
     }
 }
