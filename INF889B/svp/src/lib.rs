@@ -1,36 +1,13 @@
 use std::cmp::max;
+pub mod data;
 
 use itertools::Itertools;
-use nalgebra::{vector, SMatrix, SVector};
+use nalgebra::{SMatrix, SVector};
 
 /// lattice point
-type V<const N: usize> = SVector<f64, N>;
+pub type V<const N: usize> = SVector<f64, N>;
 /// lattice basis
-type M<const N: usize> = SMatrix<f64, N, N>;
-
-/// known instance with SVP of norm sqrt(55)
-pub fn ex1() -> M<5> {
-    // [11  0  0  0  2]
-    // [ 0 11  0  0  4]
-    // [ 0  0 11  0  3]
-    // [ 0  0  0 11  5]
-    // [ 0  0  0  0  1]
-    let b1 = vector![11.0, 0.0, 0.0, 0.0, 0.0];
-    let b2 = vector![0.0, 11.0, 0.0, 0.0, 0.0];
-    let b3 = vector![0.0, 0.0, 11.0, 0.0, 0.0];
-    let b4 = vector![0.0, 0.0, 0.0, 11.0, 0.0];
-    let b5 = vector![2.0, 4.0, 3.0, 5.0, 1.0];
-    SMatrix::from_columns(&[b1, b2, b3, b4, b5])
-}
-
-/// known example for basis reduction
-pub fn ex2() -> M<3> {
-    // details: https://www.math.ru.nl/~bosma/onderwijs/voorjaar07/compalg7.pdf
-    let b1 = vector![1.0, 1.0, 1.0];
-    let b2 = vector![-1.0, 0.0, 2.0];
-    let b3 = vector![3.0, 5.0, 6.0];
-    SMatrix::from_columns(&[b1, b2, b3])
-}
+pub type M<const N: usize> = SMatrix<f64, N, N>;
 
 /// orthogonal projection of v onto the line spanned by u
 fn projection<const N: usize>(u: V<N>, v: V<N>) -> V<N> {
@@ -38,7 +15,7 @@ fn projection<const N: usize>(u: V<N>, v: V<N>) -> V<N> {
 }
 
 /// computes a new basis orthogonal to the given one generating the same space
-pub fn gram_schmidt_process<const N: usize>(basis: &M<N>) -> M<N> {
+fn gram_schmidt_process<const N: usize>(basis: &M<N>) -> M<N> {
     // https://en.wikipedia.org/wiki/Gram–Schmidt_process
     let mut u: Vec<SVector<f64, N>> = vec![SVector::from(basis.column(0))];
     for i in 1..N {
@@ -53,14 +30,14 @@ pub fn gram_schmidt_process<const N: usize>(basis: &M<N>) -> M<N> {
 pub fn lll<const N: usize>(mut basis: M<N>, delta: f64) -> M<N> {
     // https://en.wikipedia.org/wiki/Lenstra–Lenstra–Lovász_lattice_basis_reduction_algorithm
     let mut orth = gram_schmidt_process(&basis);
-    let mu = |b: &M<N>, o: &M<N>, i, j| {
-        (b.column(i).dot(&o.column(j))) / (o.column(j).dot(&o.column(j)))
-    };
+    let mu =
+        |b: &M<N>, o: &M<N>, i, j| (b.column(i).dot(&o.column(j))) / o.column(j).norm_squared();
     let mut k = 1;
     while k < N {
         for j in (0..k).rev() {
             let m = mu(&basis, &orth, k, j);
-            if m.abs() > 0.5 { // size reduced
+            if m.abs() > 0.5 {
+                // size reduced
                 let bk = basis.column(k) - m.round() * basis.column(j);
                 basis.set_column(k, &bk);
                 orth = gram_schmidt_process(&basis);
@@ -69,7 +46,8 @@ pub fn lll<const N: usize>(mut basis: M<N>, delta: f64) -> M<N> {
         let ok = orth.column(k);
         let okk = orth.column(k - 1);
         let m = mu(&basis, &orth, k, k - 1);
-        if ok.dot(&ok) > ((delta - m.powi(2)) * (okk.dot(&okk))) { // lovasz condition
+        if ok.norm_squared() > ((delta - m.powi(2)) * okk.norm_squared()) {
+            // lovasz condition
             k = k + 1
         } else {
             basis.swap_columns(k, k - 1);
@@ -106,10 +84,7 @@ fn get_bounds<const N: usize>(basis: &M<N>, w: f64) -> Option<SVector<i32, N>> {
 ///
 /// * `basis` - matrix whose columns are linearly independant
 /// * `half_space` - cut the search space in half
-pub fn brute_force<const N: usize>(
-    basis: &M<N>,
-    half_space: bool,
-) -> Option<(SVector<i32, N>, V<N>)> {
+pub fn brute_force<const N: usize>(basis: &M<N>, half_space: bool) -> Option<V<N>> {
     // https://www.ams.org/journals/mcom/1975-29-131/S0025-5718-1975-0379386-6/S0025-5718-1975-0379386-6.pdf
     get_bounds(&basis, smallest_norm(&basis)).and_then(|bounds| {
         bounds
@@ -124,9 +99,9 @@ pub fn brute_force<const N: usize>(
             })
             .multi_cartesian_product()
             .map(|cs| SVector::from_iterator(cs) as SVector<i32, N>)
-            .map(|cs| (cs, basis * cs.map(|ci| ci as f64)))
-            .filter(|(_, v)| v.norm() > 0.0)
-            .min_by(|(_, a), (_, b)| a.norm().total_cmp(&b.norm()))
+            .map(|cs| basis * cs.map(|ci| ci as f64))
+            .filter(|v| v.norm() > 0.0)
+            .min_by(|a, b| a.norm().total_cmp(&b.norm()))
     })
 }
 
@@ -157,8 +132,8 @@ mod tests {
         if a.is_none() && b.is_none() {
             return TestResult::discard();
         }
-        if let Some((_, a)) = a {
-            if let Some((_, b)) = b {
+        if let Some(a) = a {
+            if let Some(b) = b {
                 return TestResult::from_bool((a.norm() - b.norm()).abs() < f64::EPSILON);
             }
         }
@@ -168,19 +143,23 @@ mod tests {
 
     #[test]
     fn svp_known() {
-        let basis = ex1();
+        let basis = data::ex5();
         let expected = 55.0.sqrt();
         assert_eq!(
-            brute_force(&basis, false).map(|(_, v)| v.norm()),
+            brute_force(&basis, false).map(|v| v.norm()),
             Some(expected)
         );
         assert_eq!(
-            brute_force(&basis, true).map(|(_, v)| v.norm()),
+            brute_force(&basis, true).map(|v| v.norm()),
+            Some(expected)
+        );
+        assert_eq!(
+            brute_force(&basis, true).map(|v| v.norm()),
             Some(expected)
         );
         let basis = lll(basis, 0.75);
         assert_eq!(
-            brute_force(&basis, true).map(|(_, v)| v.norm()),
+            brute_force(&basis, true).map(|v| v.norm()),
             Some(expected)
         );
     }
@@ -198,7 +177,7 @@ mod tests {
 
     #[test]
     fn test_lll() {
-        let basis: M<3> = ex2();
+        let basis: M<3> = data::ex3();
         let b1 = vector![0.0, 1.0, 0.0];
         let b2 = vector![1.0, 0.0, 1.0];
         let b3 = vector![-1.0, 0.0, 2.0];

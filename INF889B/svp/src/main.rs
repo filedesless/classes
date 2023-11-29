@@ -1,5 +1,5 @@
 fn main() {
-    let mut basis = svp::ex2();
+    let mut basis = svp::data::ex3();
     println!("basis of lattice: {}", basis);
 
     basis = svp::lll(basis, 0.75);
