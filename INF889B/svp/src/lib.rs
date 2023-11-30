@@ -1,7 +1,6 @@
 use std::cmp::max;
 pub mod data;
 
-use itertools::Itertools;
 use nalgebra::{SMatrix, SVector};
 
 /// lattice point
@@ -58,13 +57,13 @@ pub fn lll<const N: usize>(mut basis: M<N>, delta: f64) -> M<N> {
     basis
 }
 
-/// returns norm of shortest vector in the basis
-fn smallest_norm<const N: usize>(basis: &M<N>) -> f64 {
+/// returns shortest vector in the basis
+fn smallest<const N: usize>(basis: &M<N>) -> V<N> {
     basis
         .column_iter()
-        .map(|col| col.norm())
-        .min_by(f64::total_cmp)
+        .min_by(|a, b| a.norm().total_cmp(&b.norm()))
         .unwrap()
+        .clone_owned()
 }
 
 /// returns bounds for each coordinates from basis and the norm of a known short vector
@@ -84,24 +83,34 @@ fn get_bounds<const N: usize>(basis: &M<N>, w: f64) -> Option<SVector<i32, N>> {
 ///
 /// * `basis` - matrix whose columns are linearly independant
 /// * `half_space` - cut the search space in half
-pub fn brute_force<const N: usize>(basis: &M<N>, half_space: bool) -> Option<V<N>> {
+/// * `cut_space` - cut the search space whenever a new minimum is found
+pub fn brute_force<const N: usize>(basis: &M<N>, half_space: bool, cut_space: bool) -> Option<V<N>> {
     // https://www.ams.org/journals/mcom/1975-29-131/S0025-5718-1975-0379386-6/S0025-5718-1975-0379386-6.pdf
-    get_bounds(&basis, smallest_norm(&basis)).and_then(|bounds| {
-        bounds
-            .iter()
-            .enumerate()
-            .map(|(i, ci)| {
-                if half_space && i == 0 {
-                    0..=*ci
-                } else {
-                    -ci..=*ci
+    let mut best: V<N> = smallest(&basis);
+    get_bounds(&basis, best.norm()).map(|mut bounds| {
+        println!("initial bound: {}", bounds);
+        let next = |i: i32| if i > 0 { -i } else { -i + 1 };
+        let mut coefficients: SVector<i32, N> = SVector::zeros();
+        while coefficients[N-1] < bounds[N-1] {
+            // println!("coefficients : {}", coefficients);
+            let point: V<N> = basis * coefficients.map(|i| i as f64);
+            let w = point.norm();
+            if 0.0 < w && w < best.norm() {
+                best = point;
+                if cut_space {
+                    bounds = get_bounds(basis, best.norm()).unwrap();
+                    println!("bounds: {}coefficients: {}", bounds, coefficients);
                 }
-            })
-            .multi_cartesian_product()
-            .map(|cs| SVector::from_iterator(cs) as SVector<i32, N>)
-            .map(|cs| basis * cs.map(|ci| ci as f64))
-            .filter(|v| v.norm() > 0.0)
-            .min_by(|a, b| a.norm().total_cmp(&b.norm()))
+            }
+            coefficients[0] = if half_space { coefficients[0] + 1 } else { next(coefficients[0]) };
+            for i in 0..coefficients.len()-1 {
+                if coefficients[i] >= bounds[i] {
+                    coefficients[i] = 0;
+                    coefficients[i+1] = next(coefficients[i+1]);
+                }
+            }
+        }
+        best
     })
 }
 
@@ -127,8 +136,8 @@ mod tests {
         if m.determinant() > 1000.0 {
             return TestResult::discard();
         }
-        let a = brute_force(&m, false);
-        let b = brute_force(&m, true);
+        let a = brute_force(&m, false, false);
+        let b = brute_force(&m, true, true);
         if a.is_none() && b.is_none() {
             return TestResult::discard();
         }
@@ -145,23 +154,12 @@ mod tests {
     fn svp_known() {
         let basis = data::ex5();
         let expected = 55.0.sqrt();
-        assert_eq!(
-            brute_force(&basis, false).map(|v| v.norm()),
-            Some(expected)
-        );
-        assert_eq!(
-            brute_force(&basis, true).map(|v| v.norm()),
-            Some(expected)
-        );
-        assert_eq!(
-            brute_force(&basis, true).map(|v| v.norm()),
-            Some(expected)
-        );
+        assert_eq!(brute_force(&basis, false, false).map(|v| v.norm()), Some(expected));
+        assert_eq!(brute_force(&basis, true, false).map(|v| v.norm()), Some(expected));
+        assert_eq!(brute_force(&basis, true, true).map(|v| v.norm()), Some(expected));
+        assert_eq!(brute_force(&basis, false, true).map(|v| v.norm()), Some(expected));
         let basis = lll(basis, 0.75);
-        assert_eq!(
-            brute_force(&basis, true).map(|v| v.norm()),
-            Some(expected)
-        );
+        assert_eq!(brute_force(&basis, true, true).map(|v| v.norm()), Some(expected));
     }
 
     #[test]
