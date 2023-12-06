@@ -1,3 +1,5 @@
+use std::time::Instant;
+
 fn main() {
     // let bounds = vec![2, 3, 4];
     // let mut v = vec![0, 0, 0];
@@ -13,14 +15,18 @@ fn main() {
     //     }
     // }
 
-    let mut basis = svp::data::ex20();
+    let now = Instant::now();
+    let mut basis = svp::data::ex10hard();
     println!("basis of lattice: {}", basis);
+
+    let v = svp::brute_force(&basis, true, true).unwrap();
+    println!("shortest vector of lattice: {}, norm = {}", v, v.norm());
+
+    println!("Elapsed {:?}", now.elapsed());
 
     basis = svp::lll(basis, 0.75);
     println!("lll reduced basis: {}", basis);
 
-    let v = svp::brute_force(&basis, true, true).unwrap();
-    println!("shortest vector of lattice: {}", v);
     // println!("λ = {}B = {}a = {}", v, basis, cs);
     // println!("len λ = {}", v.norm());
 

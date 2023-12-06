@@ -88,23 +88,22 @@ pub fn brute_force<const N: usize>(basis: &M<N>, half_space: bool, cut_space: bo
     // https://www.ams.org/journals/mcom/1975-29-131/S0025-5718-1975-0379386-6/S0025-5718-1975-0379386-6.pdf
     let mut best: V<N> = smallest(&basis);
     get_bounds(&basis, best.norm()).map(|mut bounds| {
-        println!("initial bound: {}", bounds);
+        // println!("initial bound: {}", bounds);
         let next = |i: i32| if i > 0 { -i } else { -i + 1 };
         let mut coefficients: SVector<i32, N> = SVector::zeros();
-        while coefficients[N-1] < bounds[N-1] {
-            // println!("coefficients : {}", coefficients);
+        while coefficients[N-1] <= bounds[N-1] {
             let point: V<N> = basis * coefficients.map(|i| i as f64);
             let w = point.norm();
             if 0.0 < w && w < best.norm() {
                 best = point;
                 if cut_space {
                     bounds = get_bounds(basis, best.norm()).unwrap();
-                    println!("bounds: {}coefficients: {}", bounds, coefficients);
+                    // println!("new bound: {}with coefficients: {}", bounds, coefficients);
                 }
             }
             coefficients[0] = if half_space { coefficients[0] + 1 } else { next(coefficients[0]) };
             for i in 0..coefficients.len()-1 {
-                if coefficients[i] >= bounds[i] {
+                if coefficients[i] > bounds[i] {
                     coefficients[i] = 0;
                     coefficients[i+1] = next(coefficients[i+1]);
                 }
@@ -154,6 +153,15 @@ mod tests {
     fn svp_known() {
         let basis = data::ex5();
         let expected = 55.0.sqrt();
+        assert_eq!(brute_force(&basis, false, false).map(|v| v.norm()), Some(expected));
+        assert_eq!(brute_force(&basis, true, false).map(|v| v.norm()), Some(expected));
+        assert_eq!(brute_force(&basis, true, true).map(|v| v.norm()), Some(expected));
+        assert_eq!(brute_force(&basis, false, true).map(|v| v.norm()), Some(expected));
+        let basis = lll(basis, 0.75);
+        assert_eq!(brute_force(&basis, true, true).map(|v| v.norm()), Some(expected));
+        let basis = data::ex5easy();
+
+        let expected = 1.0;
         assert_eq!(brute_force(&basis, false, false).map(|v| v.norm()), Some(expected));
         assert_eq!(brute_force(&basis, true, false).map(|v| v.norm()), Some(expected));
         assert_eq!(brute_force(&basis, true, true).map(|v| v.norm()), Some(expected));
