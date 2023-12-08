@@ -1,5 +1,4 @@
 import random
-import functools
 import string
 import graphviz
 
@@ -28,7 +27,8 @@ class DFA:
         self.output_alphabet = range(n)
         self.transition = {(state, symbol): random.choice(self.states)
                            for state in self.states for symbol in self.input_alphabet}
-        self.output = {state: random.choice(self.output_alphabet) for state in self.states}
+        # self.output = {state: random.choice(self.output_alphabet) for state in self.states}
+        self.output = {state: random.choice([0, 1]) for state in self.states}
         self.desc = f'random automata with {n} states and alphabet of size {k} starting on {self.initial_state}'
         print(self.desc)
 
@@ -53,7 +53,7 @@ class DFA:
     def view(self):
         dot = graphviz.Digraph()
         for state in self.states:
-            dot.node(str(state), f"{state} | {self.output[state]}")
+            dot.node(str(state), f"{state} | {string.ascii_letters[self.output[state]]}")
             for symbol in self.input_alphabet:
                 dst = self.transition[(state, symbol)]
                 dot.edge(str(state), str(dst), str(symbol))
