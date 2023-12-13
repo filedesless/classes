@@ -1,0 +1,131 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+% for headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+% for automatas
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+
+% for \mod and \text in math mode
+\usepackage{amsmath}
+
+% for \mathbb{N}
+\usepackage{amsfonts}
+
+% metadata
+\title{Problème du plus court vecteur dans les réseaux
+\\ Projet de session du cours INF889B}
+\author{Félix Larose-Gervais}
+\date{Décembre 2023}
+
+% defining variables
+\setlength{\headheight}{24pt}
+\makeatletter
+\let\theTitle\@title{}
+\let\theAuthor\@author{}
+\let\theDate\@date{}
+\makeatother
+
+% headers
+\lhead{\theTitle}
+\rhead{\theAuthor}
+
+% start
+\begin{document}
+
+% first page
+\begin{titlepage}
+\maketitle
+\thispagestyle{empty}
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+Cet article porte sur le problème du plus cours vecteur dans les réseaux (souvent nommé SVP, de l'anglais Shortest Vector Problem), sujet de mon projet de session lors du cours INF889B (Algorithmes d'optimisation combinatoire). On y explore la manière d'énumérer l'espace de solutions, puis comment accélérer la recherche via diverses techniques d'optimisation.
+
+\subsection{Motivation}
+
+Le sujet est d'intérêt puisque sa difficulté supposée forme la base de plusieurs crypto-systèmes émergents. En effet, la sécurité de plusieurs crypto-systèmes modernes tels que RSA et Diffie-Hellman reposent sur l'hypothèse que la factorisation entière et le logarithme discret sont des problèmes difficiles. Cependant, l'algorithme quantique de Shor vient mettre en péril cette supposition. Or, il est cru que les problèmes sur les réseaux euclidiens comme le SVP sont difficiles même pour un ordinateur quantique. Les systèmes basés sur ce problème sont aussi les seuls connus à ce jours pour être totalement homomorphes, une propriété désirable pour permettre la délégation de calcul respectant la vie privée.
+
+\subsection{Définitions}
+
+\subsubsection{Réseaux euclidiens}
+
+Un réseau d'un espace vectoriel euclidien est un sous-groupe discret de l'espace.
+
+Soient $n \in \mathbb{N}$ et $B \in GL_n(\mathbb{R})$ appelée une base, on définit le réseau $\mathcal{L}$ ainsi:
+
+\[
+    \mathcal{L}(B) = \{ Bx \mid x \in \mathbb{Z}^n \} \subset \mathbb{R}^n
+\]
+
+C'est-à-dire l'ensemble des points atteignables par une combinaison linéaire entière des colonnes de la base. On note que le réseau dépend de la base, en effet, plusieurs bases peuvent engendrer le même réseau.
+
+\subsubsection{Problème du vecteur le plus court}
+
+Étant donné un réseau $\mathcal{L}$, notons la longueur de son plus petit vecteur non nul:
+
+\[
+    \lambda(\mathcal{L}) = \min_{v \in \mathcal{L} \setminus \{0\}} { \lVert v \rVert }
+\]
+
+où $\lVert v \rVert$ dénote ici la norme euclidienne, avec $v = (v_1, \dots, v_n)$:
+
+\[
+    \lVert v \rVert = \sqrt{v_1^2 + \cdots + v_n^2}
+\]
+
+Le problème consiste à trouver un tel $v$ non nul minimisant la norme étant donné un réseau de base $B$. Ce problème est connu pour être NP-Difficile.
+
+\subsection{Méthode naïve}
+
+A priori, il suffit d'énumérer les points du réseau, et choisir celui minimisant la norme. Cependant, il en existe un nombre infini. Pour pouvoir compléter l'énumération, il faut borner les coefficients de la combinaison linéaire entière, tout en garantissant qu'un vecteur de longueur $\lambda$ se trouve dans l'espace de recherche.
+
+Une telle borne est présentée par U. Dieter dans son article `How to calculate shortest vectors in a lattice`~\cite{b5abc078-0e9e-3e07-8735-c25285050362}.
+
+Il suffit de calculer la base du réseau dual de $\mathcal{L}$ c'est-à-dire $D = B^{-T}$, puis, étant donné une borne supérieure $w$ sur $\lambda$ (prenons la norme du plus petit vecteur de la base $B$), on peut borner nos coefficients entiers comme suit:
+
+\[
+    |x_i| \leq \lVert d_i \rVert w
+\]
+
+avec $x_i \in \mathbb{Z}$ les coefficients entiers à énumérer et $d_i \in \mathbb{R}^n$ les colonnes de $D$. Pour chaque dimension, on a donc $(2 \lVert d_i \rVert w + 1)$ entiers à énumérer, c'est-à-dire un nombre $O(2^n)$ de points à énumérer au total.
+
+\section{Optimisation combinatoire}
+
+\subsection{Symmétrie}
+
+\subsection{Séparation et évaluation}
+
+\subsection{Traitement par lots}
+
+\subsection{Approximation}
+
+\section{Algorithme LLL}
+
+\subsection{Orthogonalisation de Gram-Schmidt}
+
+\subsection{Procédure principale}
+
+\subsection{Complexité}
+
+\section{Benchmark}
+
+\section{Conclusion}
+
+\newpage
+
+\bibliographystyle{plain} % We choose the "plain" reference style
+\bibliography{refs} % Entries are in the refs.bib file
+
+
+
+
+\end{document}
