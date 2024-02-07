@@ -1,0 +1,111 @@
+\documentclass[11pt]{memoireuqamV2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% OVERLEAF: Utiliser TexLive 2021 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \usepackage{natbib}  % optionnel, doit être chargé avant babel
+% \renewcommand{\cite}[1]{\citep{#1}}  % redéfinition utile
+
+\usepackage[french]{babel}
+\usepackage[utf8x]{inputenc} % Pour utiliser les caractères accentués
+\usepackage[T1]{fontenc}
+\usepackage{url}
+\usepackage[a-1b]{pdfx}
+\usepackage{hyperref}
+\usepackage{lipsum}
+\usepackage{layout}
+\makeatletter
+\renewcommand*{\lay@value}[2]{%
+  \strip@pt\dimexpr0.351459\dimexpr\csname#2\endcsname\relax\relax mm%
+}
+\makeatother
+
+% optionnel
+\usepackage{graphicx}% Pour les figures
+\usepackage{amsfonts}
+\usepackage{standalone}
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+% police similaire à calibri, optionnelle (voir https://guidemt.uqam.ca/gabarit-et-mise-en-page/#ressource-697)
+\usepackage[sfdefault,lf]{carlito}
+% \usepackage{times}
+
+
+%%%%%%%%%%%%
+% Acronymes et symboles
+%%%%%%%%%%%%
+\usepackage[toc,acronym]{glossaries}
+\defglsentryfmt[main]{\textbf{\glsgenentryfmt}}
+\newglossary[slg]{symbols}{syi}{syg}{Notation}
+\loadglsentries{glossaires/notation}
+\loadglsentries{glossaires/acronymes}
+\loadglsentries{glossaires/glossaire}
+\makenoidxglossaries
+
+\begin{document}%\layout
+
+%%%%%%%%%%%%%%%%%%%%
+% Pour la page titre
+%%%%%%%%%%%%%%%%%%%%
+\title{Mon titre}
+% Votre nom complet tel qu'il apparaît à votre dossier du registrariat de l'UQAM
+\author{Mon nom}
+% Année et mois courant sauf si spécifié autrement pas \degreemonth et \degreeyear
+%\degreemonth{mois du dépôt}
+%\degreeyear{année du dépôt}
+\uqammemoire %% ou \uqamthese ou \uqamrapport ou \uqamprop 
+\matiere{mathématiques}
+
+
+\pagenumbering{roman} % numérotation des pages en chiffres romains
+\thispagestyle{empty}        % La page titre n'est pas numérotée
+\maketitle
+\stepcounter{page}
+
+%%%%%%%%%%%%%%%%%%%%
+% Page préliminaires
+%%%%%%%%%%%%%%%%%%%%
+
+\include{remerciements}
+\tableofcontents % Pour générer la table des matières
+\listoffigures% Pour générer la liste des figures
+\listoftables % Pour générer la liste des tableaux
+
+% Ici, on suppose une liste d'acronymes et une fiche de notation. Supprimez ces lignes si elles sont sans objet.
+\glsaddall[types={acronym}]
+\printnoidxglossary[type=acronym,toctitle=ACRONYMES,nonumberlist,sort=def]
+\glsaddall[types={symbols}]
+\printnoidxglossary[type=symbols,style=tree,nonumberlist,sort=def,toctitle=NOTATION]
+\glsresetall
+
+\include{resume}
+% Utilisez l'environnement  abstract pour rédiger votre résumé
+
+%%%%%%%%%%%%%%%%%%%%
+% Document principal
+%%%%%%%%%%%%%%%%%%%%
+\pagenumbering{arabic}
+
+% Utilisez l'environnement  introduction pour rédiger votre introduction
+\include{introduction}
+
+\include{chapitre1}
+\include{chapitre2}
+
+% Utilisez l'environnement  conclusion pour rédiger votre conclusion
+\include{conclusion}
+
+%%%%%%%%%%%%%%%%%%%%
+% Page liminaires
+%%%%%%%%%%%%%%%%%%%%
+\appendix % À partir de cette ligne toutes les commandes \chapter subséquentes seront des appendices
+\include{annexe}
+
+% index
+\printnoidxglossary[toctitle=INDEX,title=INDEX]
+
+\bibliographystyle{apalike-uqam}
+\bibliography{references}
+\end{document}

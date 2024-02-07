@@ -1,0 +1,94 @@
+\chapter{Le premier}
+\label{chapitre:un}
+
+Le texte peut être découpé en sections, sous-sections, etc. On peut s'y référer en leur attribuant un label, e.g.\verb|\label{identifiant_de_ma_section}|, et s'y référant plus tard par \verb|\ref{identifiant_de_ma_section}|.
+Cela évite d'avoir à entretenir manuellement les numéros de section si les choses sont déplacées.
+Je peux ainsi référer à la Section ~\ref{sec:secetss}.
+
+\section{Section : Sections et sous-sections}
+\label{sec:secetss}
+\lipsum[2]
+
+\subsection{Sous-section}
+\label{sec:masoussec}
+\lipsum[3]
+\subsubsection{Sous-sous-section}
+\label{sec:massoussoussec}
+
+\lipsum[1-2]
+
+\paragraph{Paragraphe}
+\label{sec:unparagraphe}
+\lipsum[3-4]
+
+\section{Figures, tableaux, notes de bas de page}
+
+\begin{figure}
+    \centering
+    % Titre au-dessus de la figure
+    % \caption{Une figure}
+    \includestandalone{figures/schema1}
+    \caption{Une figure}
+    \label{fig:figure1}
+\end{figure}
+
+\begin{table}
+    \centering
+    \begin{tabular}{cc}
+        \hline
+        modèle & valeur \\
+        \hline
+         A & 1.0 \\
+         A & 1.0 \\
+         A & 1.0 \\
+         A & 1.0 \\
+         A & 1.0 \\
+        \hline
+    \end{tabular}
+    \caption{Un autre tableau}
+    \label{tab:tableau2}
+\end{table}
+
+Les figures et tableaux sont insérées par les environnement standards \verb|figure| et \verb|table|.
+Les notes de bas de page sont insérées avec la commande \verb|\footnote|.
+Nous faisons référence au Tableau~\ref{tab:tableau1}\footnote{Le placement requis des titres de figures et tableaux peut varier. Consultez votre département d'attache.}.
+Voici une autre phrase nécessitant une note de bas de page\footnote{\lipsum[1]}.
+
+\lipsum[4-6]
+
+\begin{table}
+    \centering 
+    % Titre au-dessus du tableau
+    % \caption[Titre court pour liste des tableaux]{\lipsum[1]}
+    \begin{tabular}{lccc}
+        \hline
+        région & modèle & coût & valeur \\
+        \hline
+         Première & A & 1 & 1.0\\
+          & B & 1 & 1.0\\
+         Deuxième & C & 1 & 1.0\\
+          & D & 1 & 1.0\\
+         & E & 2 & 5.0 \\
+        \hline
+         & Autre & 2 & 5.0 \\
+        \hline
+    \end{tabular}
+    \caption[Titre court pour liste des tableaux]{\lipsum[1]}
+    \label{tab:tableau1}
+\end{table}
+
+
+\begin{figure}
+    \centering
+    \includestandalone{figures/graphique1}
+    \caption[Titre court pour la liste des figures]{Longue explication :  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut purus elit, vestibulum ut, placerat ac, adipiscing vitae, felis. Curabitur dictum gravida mauris. Nam arcu libero, nonummy eget, consectetuer id, vulputate a, magna. Donec vehicula augue eu neque. }
+    \label{fig:figure2}
+\end{figure}
+
+
+
+\section{Citer des références bibliographiques}
+
+
+Citons quelques références indispensables à la compréhension des travaux exposés ci-après~\cite{gingras1991institutionnalisation,glardon2010analyse}.
+Les explications de certains experts~\cite{mcneil2019grand, messier1989influence} seront également nécessaires.

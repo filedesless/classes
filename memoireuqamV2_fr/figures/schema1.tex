@@ -1,0 +1,24 @@
+\documentclass[tikz]{standalone}
+
+
+\begin{document}
+
+\begin{tikzpicture}
+
+\node[draw, thick, fill=teal](a) at (0, 0) {
+};
+
+\node[draw, thick](b) at (1, 1) {
+};
+\node[draw, thick](c) at (1, 0) {
+};
+\node[draw, thick](d) at (1, -1) {
+};
+
+\draw[->, thick] (a) -- (b);
+\draw[->, thick] (a) -- (c);
+\draw[->, thick] (a) -- (d);
+
+\end{tikzpicture}
+
+\end{document}
