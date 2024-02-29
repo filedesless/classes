@@ -1,0 +1,38 @@
+\documentclass{paper}
+\usepackage{geometry}
+\usepackage{hyperref}
+
+\title{BlindSort: le tri en aveugle}
+\subtitle{Présentation de projet INF8750}
+\author{Félix Larose-Gervais}
+\date{Feb 2024}
+
+\pagestyle{headings}
+
+\begin{document}
+
+\maketitle
+
+\section{Proposition de sujet}
+
+Implémentation de Blindsort, un algorithme de tri en aveugle. C'est-à-dire un programme qui, étant donné une liste d'éléments chiffrée, retourne le chiffré de cette liste triée. Pour ce faire, on utilisera le chiffrement homomorphe, en particulier le schéma TFHE~\cite{chillotti_tfhe_2020}, ainsi que de nouvelles primitives d'accès matriciel et de permutation aveugles.
+
+\section{Chiffrement homomorphe}
+
+Un système de chiffrement complètement homomorphe~\cite{marcolla_survey_2022} est un crypto-système qui permet d'effectuer des calculs sur des données chiffrées. Un tel système permet donc notamment de mettre en place des services respectant la vie privée, puisqu'il ne nécéssite pas de connaitre les données des utilisateurs en clair pour opérer.
+
+\section{Implémentation}
+
+Nous projetons d'implémenter BlindSort en Rust, sur la base de plusieurs technologies existantes. Principalement, la librairie open source TFHE-rs~\cite{TFHE-rs}, qui implémente le schéma TFHE et RevoLUT~\cite{RevoLUT}, une librairie construite sur TFHE-rs offrant de nouvelles primitives: l'accès matriciel aveugle~\cite{azogagh_oblivious_2023} et la permutation aveugle.
+
+\section{Algorithme}
+
+L'algorithme de tri est une adaptation TFHE d'une application similaire aux schémas BGV/BFV de~\cite{iliashenko_faster_2021}, lui-même variante du Direct Sort dû à~\cite{lauter_depth_2015}. Nous adapterons l'algorithme pour exploiter les nouvelles primitives offertes par RevoLUT.\@ L'idée initiale est de construire une matrice de comparaisons entre les paires d'éléments de la liste d'entrée, calculer les poids de Hamming de ses colonnes, et interpréter ses poids comme une permutation à appliquer à la liste d'entrée.
+
+\newpage
+\pagestyle{plain}
+
+\bibliography{refs}
+\bibliographystyle{apalike-uqam}
+
+\end{document}

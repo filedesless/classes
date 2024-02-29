@@ -1,0 +1,53 @@
+\begin{thebibliography}{}
+
+\bibitem[Azogagh, 2024]{RevoLUT}
+Azogagh, S. (2024).
+\newblock Revolut.
+\newblock \url{https://github.com/sofianeazogagh/revoLUT}.
+
+\bibitem[Azogagh \emph{et~al.}, 2023]{azogagh_oblivious_2023}
+Azogagh, S., Deflour, V. et Killijian, M.-O. (2023).
+\newblock Oblivious {Turing} {Machine}.
+\newblock Cryptology ePrint Archive, Paper 2023/1643.
+\newblock \url{https://eprint.iacr.org/2023/1643}.
+\newblock R\'ecup\'er\'e~le 2024-02-05 de
+  \url{https://eprint.iacr.org/2023/1643}
+
+\bibitem[Chillotti \emph{et~al.}, 2020]{chillotti_tfhe_2020}
+Chillotti, I., Gama, N., Georgieva, M. et Izabachène, M. (2020).
+\newblock {TFHE}: {Fast} {Fully} {Homomorphic} {Encryption} {Over} the {Torus}.
+\newblock {\em Journal of Cryptology}, {\em 33}(1), 34--91.
+\newblock \url{http://dx.doi.org/10.1007/s00145-019-09319-x}.
+\newblock R\'ecup\'er\'e~le 2024-02-05 de
+  \url{http://link.springer.com/10.1007/s00145-019-09319-x}
+
+\bibitem[Iliashenko et Zucca, 2021]{iliashenko_faster_2021}
+Iliashenko, I.  et Zucca, V. (2021).
+\newblock Faster homomorphic comparison operations for {BGV} and {BFV}.
+\newblock {\em Proceedings on Privacy Enhancing Technologies}.
+\newblock R\'ecup\'er\'e~le 2024-01-25 de
+  \url{https://petsymposium.org/popets/2021/popets-2021-0046.php}
+
+\bibitem[Marcolla \emph{et~al.}, 2022]{marcolla_survey_2022}
+Marcolla, C., Sucasas, V., Manzano, M., Bassoli, R., Fitzek, F. H.~P. et Aaraj,
+  N. (2022).
+\newblock Survey on {Fully} {Homomorphic} {Encryption}, {Theory}, and
+  {Applications}.
+\newblock {\em Proceedings of the IEEE}, {\em 110}(10).
+\newblock \url{http://dx.doi.org/10.1109/JPROC.2022.3205665}
+
+\bibitem[Zama, 2022]{TFHE-rs}
+Zama (2022).
+\newblock {TFHE-rs: A Pure Rust Implementation of the TFHE Scheme for Boolean
+  and Integer Arithmetics Over Encrypted Data}.
+\newblock \url{https://github.com/zama-ai/tfhe-rs}.
+
+\bibitem[Çetin \emph{et~al.}, 2015]{lauter_depth_2015}
+Çetin, G.~S., Doröz, Y., Sunar, B. et Savaş, E. (2015).
+\newblock Depth {Optimized} {Efficient} {Homomorphic} {Sorting}.
+\newblock In K. Lauter et F. Rodríguez-Henríquez (dir.), {\em Progress in
+  {Cryptology} -- {LATINCRYPT} 2015}, volume 9230   61--80. Cham: Springer
+  International Publishing.
+\newblock Series Title: Lecture Notes in Computer Science
+
+\end{thebibliography}
