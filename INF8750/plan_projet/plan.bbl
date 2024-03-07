@@ -1,0 +1,66 @@
+\begin{thebibliography}{}
+
+\bibitem[Azogagh, 2024]{RevoLUT}
+Azogagh, S. (2024).
+\newblock Revolut.
+\newblock \url{https://github.com/sofianeazogagh/revoLUT}.
+
+\bibitem[Baldimtsi et Ohrimenko, 2014]{baldimtsi_sorting_2014}
+Baldimtsi, F.  et Ohrimenko, O. (2014).
+\newblock Sorting and {Searching} {Behind} the {Curtain}: {Private}
+  {Outsourced} {Sort} and {Frequency}-{Based} {Ranking} of {Search} {Results}
+  {Over} {Encrypted} {Data}.
+\newblock Publication info: Published elsewhere. Major revision. Financial
+  Cryptography and Data Security (FC) 2015.
+\newblock R\'ecup\'er\'e~le 2024-02-29 de
+  \url{https://eprint.iacr.org/2014/1017}
+
+\bibitem[Choffrut \emph{et~al.}, 2023]{choffrut_sable_2023}
+Choffrut, A., Guerraoui, R., Pinot, R., Sirdey, R., Stephan, J. et Zuber, M.
+  (2023).
+\newblock {SABLE}: {Secure} {And} {Byzantine} robust {LEarning}.
+\newblock arXiv:2309.05395 [cs] version: 4.
+\newblock R\'ecup\'er\'e~le 2024-03-01 de \url{http://arxiv.org/abs/2309.05395}
+
+\bibitem[Iliashenko et Zucca, 2021]{iliashenko_faster_2021}
+Iliashenko, I.  et Zucca, V. (2021).
+\newblock Faster homomorphic comparison operations for {BGV} and {BFV}.
+\newblock {\em Proceedings on Privacy Enhancing Technologies}.
+\newblock R\'ecup\'er\'e~le 2024-01-25 de
+  \url{https://petsymposium.org/popets/2021/popets-2021-0046.php}
+
+\bibitem[Jönsson \emph{et~al.}, 2011]{cryptoeprint:2011/122}
+Jönsson, K.~V., Kreitz, G. et Uddin, M. (2011).
+\newblock Secure multi-party sorting and applications.
+\newblock Cryptology ePrint Archive, Paper 2011/122.
+\newblock \url{https://eprint.iacr.org/2011/122}.
+\newblock R\'ecup\'er\'e de \url{https://eprint.iacr.org/2011/122}
+
+\bibitem[Marcolla \emph{et~al.}, 2022]{marcolla_survey_2022}
+Marcolla, C., Sucasas, V., Manzano, M., Bassoli, R., Fitzek, F. H.~P. et Aaraj,
+  N. (2022).
+\newblock Survey on {Fully} {Homomorphic} {Encryption}, {Theory}, and
+  {Applications}.
+\newblock {\em Proceedings of the IEEE}, {\em 110}(10).
+\newblock \url{http://dx.doi.org/10.1109/JPROC.2022.3205665}
+
+\bibitem[Zama, 2022]{TFHE-rs}
+Zama (2022).
+\newblock {TFHE-rs: A Pure Rust Implementation of the TFHE Scheme for Boolean
+  and Integer Arithmetics Over Encrypted Data}.
+\newblock \url{https://github.com/zama-ai/tfhe-rs}.
+
+\bibitem[Zuber et Sirdey, 2021]{zuber2021efficient}
+Zuber, M.  et Sirdey, R. (2021).
+\newblock Efficient homomorphic evaluation of k-nn classifiers.
+\newblock {\em Proc. Priv. Enhancing Technol.}, {\em 2021}(2), 111--129.
+
+\bibitem[Çetin \emph{et~al.}, 2015]{lauter_depth_2015}
+Çetin, G.~S., Doröz, Y., Sunar, B. et Savaş, E. (2015).
+\newblock Depth {Optimized} {Efficient} {Homomorphic} {Sorting}.
+\newblock In K. Lauter et F. Rodríguez-Henríquez (dir.), {\em Progress in
+  {Cryptology} -- {LATINCRYPT} 2015}, volume 9230   61--80. Cham: Springer
+  International Publishing.
+\newblock Series Title: Lecture Notes in Computer Science
+
+\end{thebibliography}

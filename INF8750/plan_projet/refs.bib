@@ -1,0 +1,135 @@
+@misc{TFHE-rs,
+  title  = {{TFHE-rs: A Pure Rust Implementation of the TFHE Scheme for Boolean and Integer Arithmetics Over Encrypted Data}},
+  author = {Zama},
+  year   = {2022},
+  note   = {\url{https://github.com/zama-ai/tfhe-rs}}
+}
+
+@misc{RevoLUT,
+  title  = {RevoLUT},
+  author = {Azogagh, Sofiane},
+  year   = {2024},
+  note   = {\url{https://github.com/sofianeazogagh/revoLUT}}
+}
+
+@article{chillotti_tfhe_2020,
+  title      = {{TFHE}: {Fast} {Fully} {Homomorphic} {Encryption} {Over} the {Torus}},
+  volume     = {33},
+  issn       = {0933-2790, 1432-1378},
+  shorttitle = {{TFHE}},
+  url        = {http://link.springer.com/10.1007/s00145-019-09319-x},
+  doi        = {10.1007/s00145-019-09319-x},
+  abstract   = {This work describes a fast fully homomorphic encryption scheme over the torus (TFHE), that revisits, generalizes and improves the fully homomorphic encryption (FHE) based on GSW and its ring variants. The simplest FHE schemes consist in bootstrapped binary gates. In this gate bootstrapping mode, we show that the scheme FHEW of [29] can be expressed only in terms of external product between a GSW and a LWE ciphertext. As a consequence of this result and of other optimizations, we decrease the running time of their bootstrapping from 690ms to 13ms single core, using 16MB bootstrapping key instead of 1GB, and preserving the security parameter. In leveled homomorphic mode, we propose two methods to manipulate packed data, in order to decrease the ciphertext expansion and to optimize the evaluation of look-up tables and arbitrary functions in RingGSW based homomorphic schemes. We also extend the automata logic, introduced in [31], to the eﬃcient leveled evaluation of weighted automata, and present a new homomorphic counter called TBSR, that supports all the elementary operations that occur in a multiplication. These improvements speed-up the evaluation of most arithmetic functions in a packed leveled mode, with a noise overhead that remains additive. We ﬁnally present a new circuit bootstrapping that converts LWE ciphertexts into low-noise RingGSW ciphertexts in just 137ms, which makes the leveled mode of TFHE composable, and which is fast enough to speed-up arithmetic functions, compared to the gate bootstrapping approach.},
+  language   = {en},
+  number     = {1},
+  urldate    = {2024-02-05},
+  journal    = {Journal of Cryptology},
+  author     = {Chillotti, Ilaria and Gama, Nicolas and Georgieva, Mariya and Izabachène, Malika},
+  month      = jan,
+  year       = {2020},
+  pages      = {34--91},
+}
+
+@misc{azogagh_oblivious_2023,
+  title        = {Oblivious {Turing} {Machine}},
+  url          = {https://eprint.iacr.org/2023/1643},
+  abstract     = {In the ever-evolving landscape of Information Tech- nologies, private decentralized computing on an honest yet curious server has emerged as a prominent paradigm. While numerous schemes exist to safeguard data during computation, the focus has primarily been on protecting the confidentiality of the data itself, often overlooking the potential information leakage arising from the function evaluated by the server. Recognizing this gap, this article aims to address the issue by presenting and implementing an innovative solution for ensuring the privacy of both the data and the program. We introduce a novel approach that combines the power of Fully Homomorphic Encryption with the concept of the Turing Machine model, resulting in the first fully secure practical, non-interactive oblivious Turing Machine. Our Oblivious Turing Machine construction is based on only three hypotheses, the hardness of the Ring Learning With Error problem, the ability to homomorphically evaluate non-linear functions and the capacity to blindly rotate elements of a data structure. Only based on those three assumptions, we propose an implementation of an Oblivious Turing Machine relying on the TFHE cryptosystem and present some implementation results.},
+  urldate      = {2024-02-05},
+  author       = {Azogagh, Sofiane and Deflour, Victor and Killijian, Marc-Olivier},
+  howpublished = {Cryptology ePrint Archive, Paper 2023/1643},
+  year         = {2023},
+  keywords     = {Blind Matrix Access, Fully Homomorphic Encryption, Oblivious computing, TFHE, Turing machine},
+  note         = {\url{https://eprint.iacr.org/2023/1643}}
+}
+
+@article{iliashenko_faster_2021,
+  title   = {Faster homomorphic comparison operations for {BGV} and {BFV}},
+  issn    = {2299-0984},
+  url     = {https://petsymposium.org/popets/2021/popets-2021-0046.php},
+  urldate = {2024-01-25},
+  journal = {Proceedings on Privacy Enhancing Technologies},
+  author  = {Iliashenko, Ilia and Zucca, Vincent},
+  year    = {2021},
+}
+
+@incollection{lauter_depth_2015,
+  address   = {Cham},
+  title     = {Depth {Optimized} {Efficient} {Homomorphic} {Sorting}},
+  volume    = {9230},
+  isbn      = {978-3-319-22173-1 978-3-319-22174-8},
+  url       = {https://link.springer.com/10.1007/978-3-319-22174-8_4},
+  abstract  = {We introduce a sorting scheme which is capable of eﬃciently sorting encrypted data without the secret key. The technique is obtained by focusing on the multiplicative depth of the sorting circuit alongside the more traditional metrics such as number of comparisons and number of iterations. The reduced depth allows much reduced noise growth and thereby makes it possible to select smaller parameter sizes in somewhat homomorphic encryption instantiations resulting in greater eﬃciency savings. We ﬁrst consider a number of well known comparison based sorting algorithms as well as some sorting networks, and analyze their circuit implementations with respect to multiplicative depth. In what follows, we introduce a new ranking based sorting scheme and rigorously analyze the multiplicative depth complexity as O(log(N )+log( )), where N is the size of the array to be sorted and is the bit size of the array elements. Finally, we simulate our sorting scheme using a leveled/batched instantiation of a SWHE library. Our sorting scheme performs favorably over the analyzed classical sorting algorithms.},
+  language  = {en},
+  urldate   = {2024-02-05},
+  booktitle = {Progress in {Cryptology} -- {LATINCRYPT} 2015},
+  publisher = {Springer International Publishing},
+  author    = {Çetin, Gizem S. and Doröz, Yarkın and Sunar, Berk and Savaş, Erkay},
+  editor    = {Lauter, Kristin and Rodríguez-Henríquez, Francisco},
+  year      = {2015},
+  doi       = {10.1007/978-3-319-22174-8_4},
+  note      = {Series Title: Lecture Notes in Computer Science},
+  pages     = {61--80},
+}
+
+@article{marcolla_survey_2022,
+  title   = {Survey on {Fully} {Homomorphic} {Encryption}, {Theory}, and {Applications}},
+  volume  = {110},
+  issn    = {0018-9219},
+  doi     = {10.1109/JPROC.2022.3205665},
+  number  = {10},
+  journal = {Proceedings of the IEEE},
+  author  = {Marcolla, Chiara and Sucasas, Victor and Manzano, Marc and Bassoli, Riccardo and Fitzek, Frank H. P. and Aaraj, Najwa},
+  year    = {2022},
+}
+
+@misc{baldimtsi_sorting_2014,
+	title = {Sorting and {Searching} {Behind} the {Curtain}: {Private} {Outsourced} {Sort} and {Frequency}-{Based} {Ranking} of {Search} {Results} {Over} {Encrypted} {Data}},
+	shorttitle = {Sorting and {Searching} {Behind} the {Curtain}},
+	url = {https://eprint.iacr.org/2014/1017},
+	abstract = {We study the problem of private outsourced sorting of encrypted
+data. We start by proposing a novel sorting protocol that allows a user to outsource his data to a cloud server in an encrypted form and then request the server to perform computations on this data and sort the result. To perform the sorting the server is assisted by a secure coprocessor with minimal computational and memory resources. The server and the coprocessor are assumed to be honest but curious, i.e., they honestly follow the protocol but are interested in learning more about the user data. We refer to the new protocol as ``private outsourced sorting'' since it guarantees that neither the server
+nor the coprocessor learn anything about user data as long as they are
+non-colluding. We formally define private outsourced sorting and provide an efficient construction that is based on semi-homomorphic encryption.
+
+As an application of our private sort, we present MSRE: the first scheme for outsourced search over encrypted data that efficiently answers multi-term queries with the result ranked using frequency of query terms in the data, while maintaining data privacy. To construct MSRE we use searchable encryption techniques combined with our new private sort framework. Finally, although not discussed in this work, we believe that our private sort framework can turn out to be an important tool for more applications that require outsourced sorting while maintaining data privacy, e.g., database queries.},
+	urldate = {2024-02-29},
+	author = {Baldimtsi, Foteini and Ohrimenko, Olga},
+	year = {2014},
+	note = {Publication info: Published elsewhere. Major revision. Financial Cryptography and Data Security (FC) 2015},
+	file = {Full Text PDF:/Users/filedesless/Zotero/storage/CQWFDSIW/Baldimtsi and Ohrimenko - 2014 - Sorting and Searching Behind the Curtain Private .pdf:application/pdf},
+}
+
+@misc{choffrut_sable_2023,
+	title = {{SABLE}: {Secure} {And} {Byzantine} robust {LEarning}},
+	shorttitle = {{SABLE}},
+	url = {http://arxiv.org/abs/2309.05395},
+	abstract = {Due to the widespread availability of data, machine learning (ML) algorithms are increasingly being implemented in distributed topologies, wherein various nodes collaborate to train ML models via the coordination of a central server. However, distributed learning approaches face significant vulnerabilities, primarily stemming from two potential threats. Firstly, the presence of Byzantine nodes poses a risk of corrupting the learning process by transmitting inaccurate information to the server. Secondly, a curious server may compromise the privacy of individual nodes, sometimes reconstructing the entirety of the nodes' data. Homomorphic encryption (HE) has emerged as a leading security measure to preserve privacy in distributed learning under non-Byzantine scenarios. However, the extensive computational demands of HE, particularly for high-dimensional ML models, have deterred attempts to design purely homomorphic operators for non-linear robust aggregators. This paper introduces SABLE, the first homomorphic and Byzantine robust distributed learning algorithm. SABLE leverages HTS, a novel and efficient homomorphic operator implementing the prominent coordinate-wise trimmed mean robust aggregator. Designing HTS enables us to implement HMED, a novel homomorphic median aggregator. Extensive experiments on standard ML tasks demonstrate that SABLE achieves practical execution times while maintaining an ML accuracy comparable to its non-private counterpart.},
+	urldate = {2024-03-01},
+	publisher = {arXiv},
+	author = {Choffrut, Antoine and Guerraoui, Rachid and Pinot, Rafael and Sirdey, Renaud and Stephan, John and Zuber, Martin},
+	month = dec,
+	year = {2023},
+	note = {arXiv:2309.05395 [cs]
+version: 4},
+	keywords = {Computer Science - Cryptography and Security, Computer Science - Distributed, Parallel, and Cluster Computing, Computer Science - Machine Learning},
+	file = {arXiv.org Snapshot:/Users/filedesless/Zotero/storage/62A4TVRU/2309.html:text/html;Full Text PDF:/Users/filedesless/Zotero/storage/H9IJU6PX/Choffrut et al. - 2023 - SABLE Secure And Byzantine robust LEarning.pdf:application/pdf},
+}
+
+@misc{cryptoeprint:2011/122,
+      author = {Kristjän Valur Jönsson and Gunnar Kreitz and Misbah Uddin},
+      title = {Secure Multi-Party Sorting and Applications},
+      howpublished = {Cryptology ePrint Archive, Paper 2011/122},
+      year = {2011},
+      note = {\url{https://eprint.iacr.org/2011/122}},
+      url = {https://eprint.iacr.org/2011/122}
+}
+
+@article{zuber2021efficient,
+  title={Efficient homomorphic evaluation of k-NN classifiers.},
+  author={Zuber, Martin and Sirdey, Renaud},
+  journal={Proc. Priv. Enhancing Technol.},
+  volume={2021},
+  number={2},
+  pages={111--129},
+  year={2021}
+}

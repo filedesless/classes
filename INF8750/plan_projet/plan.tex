@@ -1,0 +1,144 @@
+\documentclass{article}
+\usepackage{geometry}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    }
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noEnd=false]{algpseudocodex}
+
+\title{INF8750: BlindSort Design Doc}
+\author{Félix Larose-Gervais}
+\date{Mars 2024}
+
+\pagestyle{headings}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+
+\subsection{Motivation}
+
+Le chiffrement homomorphe est un excellent outils pour préserver la confidentialité. Malheureusement, son cout en efficacité est encore trop grand pour justifier sa mise en place à l'échelle. Pour ce projet, on tente d'améliorer la performance aveugle d'un algorithme fondamental; le tri.
+
+\subsection{Objectif}
+
+Le but du projet est d'implémenter un algorithme de tri en aveugle dans RevoLUT~\cite{RevoLUT}, un projet rust basé sur TFHE-rs~\cite{TFHE-rs}, une librairie libre de chiffrement complètement homomorphe~\cite{marcolla_survey_2022}. La structure principale offerte par RevoLUT est une LookUp Table (LUT), un conteneur ordonné de chiffrés muni de plusieurs opérations aveugles comme la rotation et la permutation.
+
+\newpage
+
+\section{Première implémentation}
+
+Cette première méthode est similaire à celle de~\cite{iliashenko_faster_2021}, basée sur l'algorithme Direct Sort proposé par~\cite{lauter_depth_2015}.
+
+\subsection{Algorithme}
+
+L'idée est de calculer, pour une LUT donnée $A = [a_0, a_1, \dots, a_{n-1}]$, une matrice $L$ définie par:
+\begin{align*}
+    L_{ij} = \begin{cases}
+        LT(a_i, a_j) & \text{if } i < j \\
+        0 & \text{if } i = j \\
+        1 - LT(a_j, a_i) & \text{if } i > j 
+    \end{cases}
+\end{align*}
+Ensuite, on construit une permutation de tri à partir des poids de Hamming de ses colonnes.
+
+\begin{algorithm}
+    \caption{Direct Sort}
+    \begin{algorithmic}
+        \Function{BlindSort}{A}
+            \State{$\sigma \gets [0; n]$}
+            \For{$i = 0$ to $n$}
+                \For{$j = 0$ to $i$}
+                    \State{$b \gets LT(A[i], A[j])$}
+                    \State{$\sigma[i] \gets \sigma[i] + b$}
+                    \State{$\sigma[j] \gets \sigma[j] + 1 - b$}
+                \EndFor{}
+            \EndFor{}
+
+            \Return{$BlindPermutation(A, \sigma)$}
+        \EndFunction{}
+    \end{algorithmic}
+\end{algorithm}
+
+La comparaison aveugle (LT) est implémentée grâce à la primitive Blind Matrix Access de RevoLUT.\@ On cherche dans la matrice binaire triangulaire inférieure stricte ($C$ telle que les entrées $C_{ij} = [i < j]$) en utilisant les deux valeurs à comparer comme indices.
+
+\medskip
+
+Par exemple, pour la LUT $A = [5, 4, 6, 3]$, on obtient:
+\begin{align*}
+    C = \begin{pmatrix}
+        0 & 0 & 0 & 0 \\
+        1 & 0 & 0 & 0 \\
+        1 & 1 & 0 & 0 \\
+        1 & 1 & 1 & 0
+    \end{pmatrix} \qquad&\qquad
+    L = \begin{pmatrix}
+        0 & 0 & 1 & 0 \\
+        1 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 0 \\
+        1 & 1 & 1 & 0
+    \end{pmatrix}
+\end{align*}
+
+On observe que la somme des colonnes de $L$ forment la permutation $\sigma = (2, 1, 3, 0)$ qui, lorsque appliquée à $A$ donne la liste triée $\sigma(A) = [3, 4, 5, 6]$.
+
+\subsection{Complexité}
+
+Cette approche requiert $\frac{n^2-n}{2}$ comparaisons et une permutation, ce qui domine le temps d'exécution puisque chaque comparaison prends plus d'une seconde.
+
+\section{Deuxième implémentation}
+
+Cette deuxième méthode évite les comparaisons aveugles, au cout d'une permutation additionnelle.
+
+\subsection{Algorithme}
+
+L'idée est d'interpréter la liste donnée comme une permutation, que l'on applique à elle-même, ce qui produit une liste clairsemée mais relativement ordonnée. Ensuite, on construit et applique une seconde permutation compactant les entrées non-nulles.
+
+\begin{algorithm}
+    \caption{Permutation Sort}
+    \begin{algorithmic}
+        \Function{BlindSort}{A:\@ LUT}
+            \State{$B \gets BlindPermutation(A, A)$}
+            \State{$offset \gets 0$}
+            \For{$i = 0$ to $n$}
+                \State{$offset \gets offset + NULL(B[i])$}
+                \State{$\sigma[i] \gets B[i] - offset$}
+            \EndFor{}
+
+            \Return{$BlindPermutation(B, \sigma)$}
+        \EndFunction{}
+    \end{algorithmic}
+\end{algorithm}
+
+La comparaison à zéro (NULL) est essentiellement un accès aveugle dans une LUT statique de la forme $[1, 0, \dots, 0]$.
+
+Par exemple, pour $A = [5, 2, 7, 3, 0, 0, 0, 0]$, on peut la lire comme une permutation et l'appliquer à elle-même pour obtenir $B = [0, 0, 2, 3, 0, 5, 0, 7]$. Ensuite, on veut construire $\sigma = (4, 5, 0, 1, 6, 2, 7, 3)$ telle que $\sigma(B) = [2, 3, 5, 7, 0, 0, 0, 0]$.
+
+
+\subsection{Complexité}
+
+Cette deuxième approche ne requiert qu'un nombre linéaire en $n$ d'additions et de comparaisons scalaires, mais 2 permutations aveugles.
+
+\section{Méthodologie}
+
+\subsection{Property-based Testing}
+
+À l'aide de la librairie QuickCheck, on peut comparer le comportement des nouvelles primitives aveugles avec leur contrepartie en clair sur des entrées arbitraires. Cela permet de s'assurer de leur exactitude pendant le développement.
+
+\subsection{Micro-benchmarking}
+
+Afin de comparer les temps d'exécution des différentes implémentations et de l'état de l'art, on utilisera la librairie Criterion pour établir des benchmarks avec statistiques et graphiques. En plus des travaux déjà mentionnés, on peut retrouver des résultats sur la performance du tri aveugle dans les articles de~\cite{baldimtsi_sorting_2014},~\cite{cryptoeprint:2011/122},~\cite{zuber2021efficient} et~\cite{choffrut_sable_2023}.
+
+\newpage
+
+
+\bibliography{refs}
+\bibliographystyle{apalike-uqam}
+
+\end{document}
