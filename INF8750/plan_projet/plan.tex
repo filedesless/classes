@@ -7,55 +7,134 @@
     citecolor=blue,
     }
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{algorithm}
 \usepackage[noEnd=false]{algpseudocodex}
 
-\title{INF8750: BlindSort Design Doc}
+\newtheorem{definition}{Définition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{proof}{Preuve}
+
+\title{INF8750: Projet de session \\ \large{Blindsort: le tri en aveugle}}
 \author{Félix Larose-Gervais}
-\date{Mars 2024}
 
 \pagestyle{headings}
 
 \begin{document}
 \maketitle
+\newpage
 \tableofcontents
+\newpage
 
 \section{Introduction}
 
-\subsection{Motivation}
+\subsection{Contexte}
 
-Le chiffrement homomorphe est un excellent outils pour préserver la confidentialité. Malheureusement, son cout en efficacité est encore trop grand pour justifier sa mise en place à l'échelle. Pour ce projet, on tente d'améliorer la performance aveugle d'un algorithme fondamental; le tri.
+Le chiffrement homomorphe est un outils important dans la construction de Privacy Enhancing Technologies (PETs). Il permet de chiffrer des données de manière à ce qu'elles puissent être utilisées dans un calcul par une tierce partie sans avoir à être déchiffrées au préalable.
 
-\subsection{Objectif}
+Peu après la publication du cryptosystème RSA~\cite{rivest_method_1978}, ses autheurs ont remarqué que le système était partiellement homomorphe~\cite{Rivest1978}. Ils se sont ensuite demandé s'il était possible de construire un schéma complètement homomorphe.
 
-Le but du projet est d'implémenter un algorithme de tri en aveugle dans RevoLUT~\cite{RevoLUT}, un projet rust basé sur TFHE-rs~\cite{TFHE-rs}, une librairie libre de chiffrement complètement homomorphe~\cite{marcolla_survey_2022}. La structure principale offerte par RevoLUT est une LookUp Table (LUT), un conteneur ordonné de chiffrés muni de plusieurs opérations aveugles comme la rotation et la permutation.
+\begin{definition}
+    Une fonction $\varphi : \mathbb{G} \to \mathbb{H}$ est appelé un \textbf{homomorphisme} si $\forall x, y \in \mathbb{G}$ on a:
+    \[ \varphi(xy) = \varphi(x)\varphi(y)\]
+\end{definition}
+
+\begin{definition}
+    On parle de \textbf{chiffrement homomorphe} lorsqu'un schéma $\Pi = (Gen, Enc, Dec)$ a pour propriété que son algorithme de chiffrement $Enc$ est un homomorphisme (modulo Dec).
+\end{definition}
+
+\begin{definition}
+    Un schéma est dit \textbf{partiellement homomorphe} s'il permet l'évaluation de certains calculs sur ses cryptogrammes sans avoir à les déchiffrer.
+\end{definition}
+
+Par exemple, le schéma $RSA = (Gen, Enc, Dec)$ est partiellement homomorphe.
+\begin{align*}
+    RSA = \begin{cases}
+        Gen(1^n) &:= (N, e, d) \gets GenRSA \\
+        Enc_{N, e}(m) &:= m^e \mod N \\
+        Dec_d(c) &:= c^d \mod N
+    \end{cases}
+\end{align*}
+
+Où $GenRSA$ choisi aléatoirement $p, q$ deux grands nombres premiers et calcule $N = pq$ et $e, d \in \mathbb{Z}_N$ tels que $ed \equiv 1 \pmod N$. On dit que $(N, e)$ forme la clé publique et $(N, d)$ la clé privée.
+
+En effet, soient $m_1, m_2 \in \mathbb{Z}_N$, tels que $c_1 = Enc_{N, e}(m_1)$ et $c_2 = Enc_{N, e}(m_2)$, on a:
+\begin{align*}
+    Enc_{N, e}(m_1m_2) 
+        &\equiv {(m_1m_2)}^e \pmod N \\
+        &\equiv m_1^e m_2^e \pmod N \\
+        &\equiv Enc_{N, e}(m_1)Enc_{N, e}(m_2)
+\end{align*}
+
+On constate que l'on peut faire faire des multiplications de cryptogrammes RSA à une tierce partie, et en déchiffrer plus tard le résultat correct. D'autres cryptosystème ont été découverts partiellement homomorphes, tels que~\cite{elgamal1985public},~\cite{benaloh1994dense} et~\cite{paillier1999}.
+
+\begin{definition}
+    Un schéma est dit \textbf{complètement homomorphe} s'il permet l'évaluation de tout calcul sur ses cryptogrammes sans avoir à les déchiffrer.
+\end{definition}
+
+L'existence de schéma de chiffrement complètement homomorphe est resté une question ouverte pendant 30 ans.~\cite{gentry_fully_2009} a montré que c'était possible, en présentant le premier schéma complètement homomorphe, et a présenté une idée nouvelle, le bootstrapping, qui permet d'adapter certains schéma partiellement homomorphes pour les rendre complètement homomorphes.
+
+Suite aux travaux de Gentry, plusieurs schémas de chiffrement complètement homomorphe ont vu le jour, notament TFHE~\cite{chillotti_tfhe_2020}, implémenté dans librairie TFHE-rs~\cite{TFHE-rs}. Par dessus cette librairie, le projet RevoLUT~\cite{RevoLUT} introduit de nouvelles primitives de rotation et permutation aveugle, celles-ci ont servi à la mise en place de Oblivious Turing Machine~\cite{azogagh_oblivious_2023}.
+
+\newpage
+
+\subsection{Objectif du projet}
+
+Bien que le chiffrement homomorphe aie beaucoup évolué depuis sa conception, les schémas proposés aujourd'hui sont encore très inefficaces. Le but de ce projet est d'implémenter quelques algorithmes de tri en aveugle (c'est-à-dire opérant sur des données chiffrées) et de comparer leur performance entre eux et l'état de l'art.
+
+Les deux premiers algorithmes implémentés sont basés sur le Direct Sort de~\cite{lauter_depth_2015}, l'un utilisant les primitives de Blind Matrix Access et de Blind Permutation offertes par RevoLUT, puis un autre utilisant directement les primitives de TFHE-rs. Ensuite, on présente une technique nouvelle basée sur deux passes de Blind Permutation de RevoLUT.\@
+
+\subsection{Schéma TFHE}
+
+Le schéma de chiffrement homomorphe TFHE est basé sur le problème de l'apprentissage avec erreur (Learning With Errors, LWE). La sécurité du schéma est basée sur la difficulté du problème de recherche de plus court vecteur dans les réseaux Euclidiens~\cite{regev_lattices_2009}.
+\begin{align*}
+    LWE = \begin{cases}
+        Gen(1^n) &:= s \overset{R}{\gets} {\{0, 1\}}^n \\
+        Enc_s(m) &:= (a, \sum{a_i s_i} + \Delta m + e),\, a \overset{R}{\gets} \mathbb{Z}_q^n, e \overset{R}{\gets} \chi_\sigma \\
+        Dec_s(a, b) &:= (b - \sum{a_i s_i})  / \Delta
+    \end{cases}
+\end{align*}
+
+Où $p, q$ des puissances de 2 sont les tailles de l'espace des messages et des cryptogrammes respectivement, tel que $\Delta = q / p$, avec $\Delta$ la taille réservée au bruit. Le bruit $e$ est tiré d'une distribution Gaussienne centrée de variance $\sigma$. On a donc $Enc_s : \mathbb{Z}_p \to \mathbb{Z}_q^n \times \mathbb{Z}_q$. On peut vérifier que le schéma $LWE$ est additivement homomorphe.
+\begin{align*}
+    Enc_s(m_1) + Enc_s(m_2) & = (a_1, a_1 \cdot s + \Delta m_1 + e_1) + (a_2, a_2 \cdot s + \Delta m_2 + e_2) \\
+    &= (a_1 + a_2, (a_1 + a_2) \cdot s + \Delta (m_1 + m_2) + (e_1 + e_2)) \\
+    &= Enc_s(m_1 + m_2)
+\end{align*}
+
+Similairement, on peut chiffrer des tableaux de taille $N$ (une puissance de 2) en les encodant comme des éléments de $\mathcal{R}_q = \mathbb{Z}_q[X]/(X^N+1)$, c'est-à-dire des polynômes à coefficients entiers (modulo $q$) de degré au plus $N - 1$.
+\begin{align*}
+    RLWE = \begin{cases}
+        Gen(1^n) &:= S \overset{R}{\gets} \mathcal{R}_2 \\
+        Enc_s(M) &:= (A, AS + \Delta M + E),\, A \overset{R}{\gets} \mathcal{R}_q, E \overset{R}{\gets} \chi_\sigma \\
+        Dec_s(A, B) &:= (B - AS) / \Delta
+    \end{cases}
+\end{align*}
+
+Il est important de mentionner que les opérations homomorphes sur les cryptogrammes (R)-LWE accumulent le bruit. Par conséquent, après un certains nombre d'opérations, le bruit déborde dans les bits de poids fort réservés au message, et rend le cryptogramme indéchiffrable. Afin de régler ce problème,~\cite{gentry_fully_2009} a proposé l'idée de bootstrapping; c'est-à-dire d'évaluer la procédure de déchiffrement en aveugle, à partir d'un chiffré de la clé et d'un chiffré du cryptogramme dont on veut réduire le bruit.
+
+\cite{chillotti_tfhe_2020} ont proposé une amélioration à la procédure coûteuse de Gentry, basée sur la rotation aveugle de polynômes. Leur approche, en plus d'être plus rapide, permet l'évaluation de n'importe quelle fonction discrétisée $f$, en encodant les images de la fonction dans les coefficients d'un polynôme $P = \sum{f(i)X^i}$. L'évaluation aveugle de $f$ consiste donc en une rotation aveugle de $P$ suivie d'une extraction du premier coefficient.
+
+\subsection{RevoLUT}
+
+Le projet RevoLUT, basé sur TFHE-rs, expose une structure appelée une Look-Up Table (LUT). Cette structure est un tableau à taille fixe de messages chiffrés, sur lequel a été implémenté plusieurs nouvelles primitives tel que la rotation aveugle, la permutation aveugle et l'accès dans un tableau ou une matrice en aveugle.
 
 \newpage
 
 \section{Première implémentation}
 
-Cette première méthode est similaire à celle de~\cite{iliashenko_faster_2021}, basée sur l'algorithme Direct Sort proposé par~\cite{lauter_depth_2015}.
+\subsection{Direct Sort}
 
-\subsection{Algorithme}
-
-L'idée est de calculer, pour une LUT donnée $A = [a_0, a_1, \dots, a_{n-1}]$, une matrice $L$ définie par:
-\begin{align*}
-    L_{ij} = \begin{cases}
-        LT(a_i, a_j) & \text{if } i < j \\
-        0 & \text{if } i = j \\
-        1 - LT(a_j, a_i) & \text{if } i > j 
-    \end{cases}
-\end{align*}
-Ensuite, on construit une permutation de tri à partir des poids de Hamming de ses colonnes.
+L'idée principale de l'algorithme est de construire une permutation à partir des comparaisons entre les paires d'éléments de la liste, puis de l'appliquer.
 
 \begin{algorithm}
-    \caption{Direct Sort}
+    \caption{Direct Sort dans RevoLUT}
     \begin{algorithmic}
-        \Function{BlindSort}{A}
+        \Function{BlindSort}{T: LUT}
             \State{$\sigma \gets [0; n]$}
             \For{$i = 0$ to $n$}
                 \For{$j = 0$ to $i$}
-                    \State{$b \gets LT(A[i], A[j])$}
+                    \State{$b \gets BMA(L, A[i], A[j])$}
                     \State{$\sigma[i] \gets \sigma[i] + b$}
                     \State{$\sigma[j] \gets \sigma[j] + 1 - b$}
                 \EndFor{}

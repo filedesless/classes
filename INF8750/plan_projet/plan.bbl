@@ -5,6 +5,14 @@ Azogagh, S. (2024).
 \newblock Revolut.
 \newblock \url{https://github.com/sofianeazogagh/revoLUT}.
 
+\bibitem[Azogagh \emph{et~al.}, 2023]{azogagh_oblivious_2023}
+Azogagh, S., Deflour, V. et Killijian, M.-O. (2023).
+\newblock Oblivious {Turing} {Machine}.
+\newblock Cryptology ePrint Archive, Paper 2023/1643.
+\newblock \url{https://eprint.iacr.org/2023/1643}.
+\newblock R\'ecup\'er\'e~le 2024-02-05 de
+  \url{https://eprint.iacr.org/2023/1643}
+
 \bibitem[Baldimtsi et Ohrimenko, 2014]{baldimtsi_sorting_2014}
 Baldimtsi, F.  et Ohrimenko, O. (2014).
 \newblock Sorting and {Searching} {Behind} the {Curtain}: {Private}
@@ -15,6 +23,20 @@ Baldimtsi, F.  et Ohrimenko, O. (2014).
 \newblock R\'ecup\'er\'e~le 2024-02-29 de
   \url{https://eprint.iacr.org/2014/1017}
 
+\bibitem[Benaloh, 1994]{benaloh1994dense}
+Benaloh, J. (1994).
+\newblock Dense probabilistic encryption.
+\newblock Dans {\em Proceedings of the workshop on selected areas of
+  cryptography},  120--128.
+
+\bibitem[Chillotti \emph{et~al.}, 2020]{chillotti_tfhe_2020}
+Chillotti, I., Gama, N., Georgieva, M. et Izabachène, M. (2020).
+\newblock {TFHE}: {Fast} {Fully} {Homomorphic} {Encryption} {Over} the {Torus}.
+\newblock {\em Journal of Cryptology}, {\em 33}(1), 34--91.
+\newblock \url{http://dx.doi.org/10.1007/s00145-019-09319-x}.
+\newblock R\'ecup\'er\'e~le 2024-02-05 de
+  \url{http://link.springer.com/10.1007/s00145-019-09319-x}
+
 \bibitem[Choffrut \emph{et~al.}, 2023]{choffrut_sable_2023}
 Choffrut, A., Guerraoui, R., Pinot, R., Sirdey, R., Stephan, J. et Zuber, M.
   (2023).
@@ -22,12 +44,21 @@ Choffrut, A., Guerraoui, R., Pinot, R., Sirdey, R., Stephan, J. et Zuber, M.
 \newblock arXiv:2309.05395 [cs] version: 4.
 \newblock R\'ecup\'er\'e~le 2024-03-01 de \url{http://arxiv.org/abs/2309.05395}
 
-\bibitem[Iliashenko et Zucca, 2021]{iliashenko_faster_2021}
-Iliashenko, I.  et Zucca, V. (2021).
-\newblock Faster homomorphic comparison operations for {BGV} and {BFV}.
-\newblock {\em Proceedings on Privacy Enhancing Technologies}.
-\newblock R\'ecup\'er\'e~le 2024-01-25 de
-  \url{https://petsymposium.org/popets/2021/popets-2021-0046.php}
+\bibitem[ElGamal, 1985]{elgamal1985public}
+ElGamal, T. (1985).
+\newblock A public key cryptosystem and a signature scheme based on discrete
+  logarithms.
+\newblock {\em IEEE transactions on information theory}, {\em 31}(4), 469--472.
+
+\bibitem[Gentry, 2009]{gentry_fully_2009}
+Gentry, C. (2009).
+\newblock Fully homomorphic encryption using ideal lattices.
+\newblock Dans {\em Proceedings of the forty-first annual {ACM} symposium on
+  {Theory} of computing}, {STOC} '09,  169--178., New York, NY, USA.
+  Association for Computing Machinery.
+\newblock \url{http://dx.doi.org/10.1145/1536414.1536440}.
+\newblock R\'ecup\'er\'e~le 2024-03-19 de
+  \url{https://doi.org/10.1145/1536414.1536440}
 
 \bibitem[Jönsson \emph{et~al.}, 2011]{cryptoeprint:2011/122}
 Jönsson, K.~V., Kreitz, G. et Uddin, M. (2011).
@@ -36,13 +67,34 @@ Jönsson, K.~V., Kreitz, G. et Uddin, M. (2011).
 \newblock \url{https://eprint.iacr.org/2011/122}.
 \newblock R\'ecup\'er\'e de \url{https://eprint.iacr.org/2011/122}
 
-\bibitem[Marcolla \emph{et~al.}, 2022]{marcolla_survey_2022}
-Marcolla, C., Sucasas, V., Manzano, M., Bassoli, R., Fitzek, F. H.~P. et Aaraj,
-  N. (2022).
-\newblock Survey on {Fully} {Homomorphic} {Encryption}, {Theory}, and
-  {Applications}.
-\newblock {\em Proceedings of the IEEE}, {\em 110}(10).
-\newblock \url{http://dx.doi.org/10.1109/JPROC.2022.3205665}
+\bibitem[Paillier, 1999]{paillier1999}
+Paillier, P. (1999).
+\newblock Public-key cryptosystems based on composite degree residuosity
+  classes.
+\newblock Dans J. Stern (dir.). {\em Advances in Cryptology --- EUROCRYPT '99},
+   223--238., Berlin, Heidelberg. Springer Berlin Heidelberg.
+
+\bibitem[Regev, 2009]{regev_lattices_2009}
+Regev, O. (2009).
+\newblock On {Lattices}, {Learning} with {Errors}, {Random} {Linear} {Codes},
+  and {Cryptography}.
+\newblock arXiv:2401.03703 [quant-ph],
+  \url{http://dx.doi.org/10.48550/arXiv.2401.03703}.
+\newblock R\'ecup\'er\'e~le 2024-03-20 de \url{http://arxiv.org/abs/2401.03703}
+
+\bibitem[Rivest \emph{et~al.}, 1978a]{Rivest1978}
+Rivest, R.~L., Adleman, L. et Dertouzos, M.~L. (1978a).
+\newblock On data banks and privacy homomorphisms.
+\newblock {\em Foundations of Secure Computation, Academia Press},  169--179.
+
+\bibitem[Rivest \emph{et~al.}, 1978b]{rivest_method_1978}
+Rivest, R.~L., Shamir, A. et Adleman, L. (1978b).
+\newblock A method for obtaining digital signatures and public-key
+  cryptosystems.
+\newblock {\em Communications of the ACM}, {\em 21}(2), 120--126.
+\newblock \url{http://dx.doi.org/10.1145/359340.359342}.
+\newblock R\'ecup\'er\'e~le 2024-01-26 de
+  \url{https://dl.acm.org/doi/10.1145/359340.359342}
 
 \bibitem[Zama, 2022]{TFHE-rs}
 Zama (2022).

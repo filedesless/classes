@@ -133,3 +133,105 @@ version: 4},
   pages={111--129},
   year={2021}
 }
+
+
+@inproceedings{gentry_fully_2009,
+	address = {New York, NY, USA},
+	series = {{STOC} '09},
+	title = {Fully homomorphic encryption using ideal lattices},
+	isbn = {978-1-60558-506-2},
+	url = {https://doi.org/10.1145/1536414.1536440},
+	doi = {10.1145/1536414.1536440},
+	abstract = {We propose a fully homomorphic encryption scheme -- i.e., a scheme that allows one to evaluate circuits over encrypted data without being able to decrypt. Our solution comes in three steps. First, we provide a general result -- that, to construct an encryption scheme that permits evaluation of arbitrary circuits, it suffices to construct an encryption scheme that can evaluate (slightly augmented versions of) its own decryption circuit; we call a scheme that can evaluate its (augmented) decryption circuit bootstrappable. Next, we describe a public key encryption scheme using ideal lattices that is almost bootstrappable. Lattice-based cryptosystems typically have decryption algorithms with low circuit complexity, often dominated by an inner product computation that is in NC1. Also, ideal lattices provide both additive and multiplicative homomorphisms (modulo a public-key ideal in a polynomial ring that is represented as a lattice), as needed to evaluate general circuits. Unfortunately, our initial scheme is not quite bootstrappable -- i.e., the depth that the scheme can correctly evaluate can be logarithmic in the lattice dimension, just like the depth of the decryption circuit, but the latter is greater than the former. In the final step, we show how to modify the scheme to reduce the depth of the decryption circuit, and thereby obtain a bootstrappable encryption scheme, without reducing the depth that the scheme can evaluate. Abstractly, we accomplish this by enabling the encrypter to start the decryption process, leaving less work for the decrypter, much like the server leaves less work for the decrypter in a server-aided cryptosystem.},
+	urldate = {2024-03-19},
+	booktitle = {Proceedings of the forty-first annual {ACM} symposium on {Theory} of computing},
+	publisher = {Association for Computing Machinery},
+	author = {Gentry, Craig},
+	month = may,
+	year = {2009},
+	keywords = {fully homomorphic encryption},
+	pages = {169--178},
+	file = {Submitted Version:/Users/filedesless/Zotero/storage/K7FCQPKT/Gentry - 2009 - Fully homomorphic encryption using ideal lattices.pdf:application/pdf},
+}
+
+@article{Rivest1978,
+  added-at = {2011-02-14T16:52:54.000+0100},
+  author = {Rivest, R L and Adleman, L and Dertouzos, M L},
+  biburl = {https://www.bibsonomy.org/bibtex/2df214f59ac3cc15fbfaf6d0606eb340c/fohv},
+  date-modified = {2006-08-22 11:34:23 +0200},
+  interhash = {c880dde05ce4210752a154a7c0b6fd31},
+  intrahash = {df214f59ac3cc15fbfaf6d0606eb340c},
+  journal = {Foundations of Secure Computation, Academia Press},
+  keywords = {imported},
+  pages = {169-179},
+  timestamp = {2011-02-14T16:53:02.000+0100},
+  title = {On Data Banks and Privacy Homomorphisms},
+  year = 1978
+}
+
+@article{elgamal1985public,
+  title={A public key cryptosystem and a signature scheme based on discrete logarithms},
+  author={ElGamal, Taher},
+  journal={IEEE transactions on information theory},
+  volume={31},
+  number={4},
+  pages={469--472},
+  year={1985},
+  publisher={IEEE}
+}
+
+@InProceedings{paillier1999,
+	author="Paillier, Pascal",
+	editor="Stern, Jacques",
+	title="Public-Key Cryptosystems Based on Composite Degree Residuosity Classes",
+	booktitle="Advances in Cryptology --- EUROCRYPT '99",
+	year="1999",
+	publisher="Springer Berlin Heidelberg",
+	address="Berlin, Heidelberg",
+	pages="223--238",
+	abstract="This paper investigates a novel computational problem, namely the Composite Residuosity Class Problem, and its applications to public-key cryptography. We propose a new trapdoor mechanism and derive from this technique three encryption schemes: a trapdoor permutation and two homomorphic probabilistic encryption schemes computationally comparable to RSA. Our cryptosystems, based on usual modular arithmetics, are provably secure under appropriate assumptions in the standard model.",
+	isbn="978-3-540-48910-8"
+}
+
+@inproceedings{benaloh1994dense,
+  title={Dense probabilistic encryption},
+  author={Benaloh, Josh},
+  booktitle={Proceedings of the workshop on selected areas of cryptography},
+  pages={120--128},
+  year={1994}
+}
+
+@article{rivest_method_1978,
+	title = {A method for obtaining digital signatures and public-key cryptosystems},
+	volume = {21},
+	issn = {0001-0782},
+	url = {https://dl.acm.org/doi/10.1145/359340.359342},
+	doi = {10.1145/359340.359342},
+	abstract = {An encryption method is presented with the novel property that publicly revealing an encryption key does not thereby reveal the corresponding decryption key. This has two important consequences: (1) Couriers or other secure means are not needed to transmit keys, since a message can be enciphered using an encryption key publicly revealed by the intented recipient. Only he can decipher the message, since only he knows the corresponding decryption key. (2) A message can be “signed” using a privately held decryption key. Anyone can verify this signature using the corresponding publicly revealed encryption key. Signatures cannot be forged, and a signer cannot later deny the validity of his signature. This has obvious applications in “electronic mail” and “electronic funds transfer” systems. A message is encrypted by representing it as a number M, raising M to a publicly specified power e, and then taking the remainder when the result is divided by the publicly specified product, n, of two large secret primer numbers p and q. Decryption is similar; only a different, secret, power d is used, where e * d ≡ 1(mod (p - 1) * (q - 1)). The security of the system rests in part on the difficulty of factoring the published divisor, n.},
+	number = {2},
+	urldate = {2024-01-26},
+	journal = {Communications of the ACM},
+	author = {Rivest, R. L. and Shamir, A. and Adleman, L.},
+	month = feb,
+	year = {1978},
+	keywords = {authentication, cryptography, digital signatures, electronic funds transfer, electronic mail, factorization, message-passing, prime number, privacy, public-key cryptosystems, security, RSA},
+	pages = {120--126},
+	file = {Full Text PDF:/Users/filedesless/Zotero/storage/B4VUS56Q/Rivest et al. - 1978 - A method for obtaining digital signatures and publ.pdf:application/pdf},
+}
+
+@misc{regev_lattices_2009,
+	title = {On {Lattices}, {Learning} with {Errors}, {Random} {Linear} {Codes}, and {Cryptography}},
+	url = {http://arxiv.org/abs/2401.03703},
+	doi = {10.48550/arXiv.2401.03703},
+	abstract = {Our main result is a reduction from worst-case lattice problems such as GapSVP and SIVP to a certain learning problem. This learning problem is a natural extension of the `learning from parity with error' problem to higher moduli. It can also be viewed as the problem of decoding from a random linear code. This, we believe, gives a strong indication that these problems are hard. Our reduction, however, is quantum. Hence, an efficient solution to the learning problem implies a quantum algorithm for GapSVP and SIVP. A main open question is whether this reduction can be made classical (i.e., non-quantum). We also present a (classical) public-key cryptosystem whose security is based on the hardness of the learning problem. By the main result, its security is also based on the worst-case quantum hardness of GapSVP and SIVP. The new cryptosystem is much more efficient than previous lattice-based cryptosystems: the public key is of size \${\textbackslash}tilde\{O\}(n{\textasciicircum}2)\$ and encrypting a message increases its size by a factor of \${\textbackslash}tilde\{O\}(n)\$ (in previous cryptosystems these values are \${\textbackslash}tilde\{O\}(n{\textasciicircum}4)\$ and \${\textbackslash}tilde\{O\}(n{\textasciicircum}2)\$, respectively). In fact, under the assumption that all parties share a random bit string of length \${\textbackslash}tilde\{O\}(n{\textasciicircum}2)\$, the size of the public key can be reduced to \${\textbackslash}tilde\{O\}(n)\$.},
+	urldate = {2024-03-20},
+	publisher = {arXiv},
+	author = {Regev, Oded},
+	month = jan,
+	year = {2009},
+	note = {arXiv:2401.03703 [quant-ph]},
+	keywords = {Computer Science - Cryptography and Security, Computer Science - Computational Complexity, Quantum Physics},
+	annote = {Comment: Identical to the version posted in 2009, apart from fixing a bug in the proof of Claim 3.13},
+	file = {arXiv Fulltext PDF:/Users/filedesless/Zotero/storage/3Y5RFCFI/Regev - 2024 - On Lattices, Learning with Errors, Random Linear C.pdf:application/pdf;arXiv.org Snapshot:/Users/filedesless/Zotero/storage/TDC4HCKV/2401.html:text/html},
+}
+
