@@ -5,24 +5,6 @@ Azogagh, S. (2024).
 \newblock Revolut.
 \newblock \url{https://github.com/sofianeazogagh/revoLUT}.
 
-\bibitem[Azogagh \emph{et~al.}, 2023]{azogagh_oblivious_2023}
-Azogagh, S., Deflour, V. et Killijian, M.-O. (2023).
-\newblock Oblivious {Turing} {Machine}.
-\newblock Cryptology ePrint Archive, Paper 2023/1643.
-\newblock \url{https://eprint.iacr.org/2023/1643}.
-\newblock R\'ecup\'er\'e~le 2024-02-05 de
-  \url{https://eprint.iacr.org/2023/1643}
-
-\bibitem[Baldimtsi et Ohrimenko, 2014]{baldimtsi_sorting_2014}
-Baldimtsi, F.  et Ohrimenko, O. (2014).
-\newblock Sorting and {Searching} {Behind} the {Curtain}: {Private}
-  {Outsourced} {Sort} and {Frequency}-{Based} {Ranking} of {Search} {Results}
-  {Over} {Encrypted} {Data}.
-\newblock Publication info: Published elsewhere. Major revision. Financial
-  Cryptography and Data Security (FC) 2015.
-\newblock R\'ecup\'er\'e~le 2024-02-29 de
-  \url{https://eprint.iacr.org/2014/1017}
-
 \bibitem[Benaloh, 1994]{benaloh1994dense}
 Benaloh, J. (1994).
 \newblock Dense probabilistic encryption.
@@ -37,18 +19,15 @@ Chillotti, I., Gama, N., Georgieva, M. et Izabachène, M. (2020).
 \newblock R\'ecup\'er\'e~le 2024-02-05 de
   \url{http://link.springer.com/10.1007/s00145-019-09319-x}
 
-\bibitem[Choffrut \emph{et~al.}, 2023]{choffrut_sable_2023}
-Choffrut, A., Guerraoui, R., Pinot, R., Sirdey, R., Stephan, J. et Zuber, M.
-  (2023).
-\newblock {SABLE}: {Secure} {And} {Byzantine} robust {LEarning}.
-\newblock arXiv:2309.05395 [cs] version: 4.
-\newblock R\'ecup\'er\'e~le 2024-03-01 de \url{http://arxiv.org/abs/2309.05395}
-
 \bibitem[ElGamal, 1985]{elgamal1985public}
 ElGamal, T. (1985).
 \newblock A public key cryptosystem and a signature scheme based on discrete
   logarithms.
 \newblock {\em IEEE transactions on information theory}, {\em 31}(4), 469--472.
+
+\bibitem[Fung, 2021]{fung2021simplest}
+Fung, S. P.~Y. (2021).
+\newblock Is this the simplest (and most surprising) sorting algorithm ever?
 
 \bibitem[Gentry, 2009]{gentry_fully_2009}
 Gentry, C. (2009).
@@ -60,12 +39,12 @@ Gentry, C. (2009).
 \newblock R\'ecup\'er\'e~le 2024-03-19 de
   \url{https://doi.org/10.1145/1536414.1536440}
 
-\bibitem[Jönsson \emph{et~al.}, 2011]{cryptoeprint:2011/122}
-Jönsson, K.~V., Kreitz, G. et Uddin, M. (2011).
-\newblock Secure multi-party sorting and applications.
-\newblock Cryptology ePrint Archive, Paper 2011/122.
-\newblock \url{https://eprint.iacr.org/2011/122}.
-\newblock R\'ecup\'er\'e de \url{https://eprint.iacr.org/2011/122}
+\bibitem[Iliashenko et Zucca, 2021]{iliashenko_faster_2021}
+Iliashenko, I.  et Zucca, V. (2021).
+\newblock Faster homomorphic comparison operations for {BGV} and {BFV}.
+\newblock {\em Proceedings on Privacy Enhancing Technologies}.
+\newblock R\'ecup\'er\'e~le 2024-01-25 de
+  \url{https://petsymposium.org/popets/2021/popets-2021-0046.php}
 
 \bibitem[Paillier, 1999]{paillier1999}
 Paillier, P. (1999).
@@ -102,10 +81,17 @@ Zama (2022).
   and Integer Arithmetics Over Encrypted Data}.
 \newblock \url{https://github.com/zama-ai/tfhe-rs}.
 
-\bibitem[Zuber et Sirdey, 2021]{zuber2021efficient}
-Zuber, M.  et Sirdey, R. (2021).
-\newblock Efficient homomorphic evaluation of k-nn classifiers.
-\newblock {\em Proc. Priv. Enhancing Technol.}, {\em 2021}(2), 111--129.
+\bibitem[{Zama.ai}, 2022a]{LWE}
+{Zama.ai} (2022a).
+\newblock Glwe encoding coefficients.
+\newblock R\'ecup\'er\'e de
+  \url{https://www.zama.ai/post/tfhe-deep-dive-part-1}
+
+\bibitem[{Zama.ai}, 2022b]{LUT}
+{Zama.ai} (2022b).
+\newblock Glwe encoding coefficients.
+\newblock R\'ecup\'er\'e de
+  \url{https://www.zama.ai/post/tfhe-deep-dive-part-4}
 
 \bibitem[Çetin \emph{et~al.}, 2015]{lauter_depth_2015}
 Çetin, G.~S., Doröz, Y., Sunar, B. et Savaş, E. (2015).
